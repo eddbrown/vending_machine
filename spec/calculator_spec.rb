@@ -18,7 +18,7 @@ RSpec.describe Calculator do
 
     calc = Calculator.new(cost,tender)
 
-    expect(calc.dispense_order).to eq(
+    expect(calc.compute_change).to eq(
       {
         0.01 => 0,
         0.02 => 0,
@@ -37,7 +37,7 @@ RSpec.describe Calculator do
 
     calc = Calculator.new(cost,tender)
 
-    expect(calc.dispense_order).to eq(
+    expect(calc.compute_change).to eq(
       {
         0.01 => 0,
         0.02 => 2,
