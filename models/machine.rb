@@ -74,4 +74,9 @@ class Machine
       change: dispensed_change
     }
   end
+
+  def empty
+    @items = []
+    @coins = []
+  end
 end

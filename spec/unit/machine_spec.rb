@@ -101,4 +101,12 @@ RSpec.describe Machine do
 
     expect{ machine.choose(:B, tender) }.to raise_error('Insufficient Funds')
   end
+
+  it 'empties its contents' do
+    machine = Machine.new
+    machine.empty
+
+    expect(machine.coin_count(0.01)).to eq(0)
+    expect(machine.item_count(:B)).to eq(0)
+  end
 end
