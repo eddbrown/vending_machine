@@ -60,11 +60,13 @@ RSpec.describe Machine do
   it 'asks the calculator to provide it with a list of change to return' do
     machine = Machine.new
     machine.reload_items
-    change_list = double(compute_change: :list)
+    calc = double(compute_change: :list)
+    cost = 1.0
+    tender = 2.0
 
-    allow(Calculator).to receive(:new) { change_list }
+    allow(Calculator).to receive(:new) { calc }
 
-    expect(machine.compute_change(:A, 1.0)).to eq(:list)
+    expect(machine.compute_change(cost, tender)).to eq(:list)
   end
 
   it 'dispenses the chosen item and change according to the computed list' do
@@ -83,6 +85,7 @@ RSpec.describe Machine do
       1.0 => 0,
       2.0 => 2
     }
+
     calc = double(compute_change: list)
     allow(Calculator).to receive(:new) { calc }
     allow(machine).to receive(:dispense_item) { item }
@@ -97,7 +100,11 @@ RSpec.describe Machine do
     machine = Machine.new
     machine.reload_items
     machine.reload_coins
+    cost = 1.00
+    tender = 0.1
 
-    expect{machine.choose(:B, 0.1)}.to raise_error('Insufficient Funds')
+    allow_any_instance_of(Item).to receive(:cost) { cost }
+
+    expect{ machine.choose(:B, tender) }.to raise_error('Insufficient Funds')
   end
 end
