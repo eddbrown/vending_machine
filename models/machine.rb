@@ -63,20 +63,22 @@ class Machine
     end
   end
 
-  def compute_change(item, tender)
-    raise('Insufficient Funds') if (ITEM_COSTS[item.to_sym] > tender)
+  def compute_change(cost, tender)
+    raise('Insufficient Funds') if (cost > tender)
 
-    Calculator.new(ITEM_COSTS[item], tender).compute_change
+    Calculator.new(cost, tender).compute_change
   end
 
   def choose(item, tender)
-    change_list = compute_change(item, tender)
+    item_cost = ITEM_COSTS[item]
+    change_list = compute_change(item_cost, tender)
 
     dispensed_change = []
 
     change_list.each do |coin, number|
       number.times{
-        dispensed_change.push(dispense_coin(coin))
+        change = dispense_coin(coin)
+        dispensed_change.push(change)
       }
     end
 

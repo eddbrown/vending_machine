@@ -1,5 +1,5 @@
 class Item
-  attr_accessor :cost, :code
+  attr_accessor :code
 
   def initialize(code)
     @code = code
