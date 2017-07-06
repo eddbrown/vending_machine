@@ -1,6 +1,8 @@
 # These integration tests are here for dual purpose.
 # 1. To test the models are working together without stubbing. Further tests are
-#    carried out in the unit tests which are more granular.
+# carried out in the unit tests which are more granular. The machine interacts
+# with a class called calculator. In the unit test, this class is stubbed out
+# but here all the classes are fully used.
 
 # 2. To specifically test the items in the brief.
 
