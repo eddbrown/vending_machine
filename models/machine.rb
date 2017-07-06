@@ -4,8 +4,8 @@ class Machine
   MAX_COIN_CAPACITY = 100
 
   def initialize
-    @items = []
-    @coins = []
+    reload_coins
+    reload_items
   end
 
   def item_count(code)

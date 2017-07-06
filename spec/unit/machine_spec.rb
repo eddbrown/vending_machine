@@ -3,8 +3,9 @@ RSpec.describe Machine do
     Machine::ALLOWED_DENOMINATIONS.each do |denomination|
       machine = Machine.new
 
-      machine.add_coin(denomination)
-      expect(machine.coin_count(denomination)).to eq(1)
+      expect{machine.add_coin(denomination)}.to change{
+        machine.coin_count(denomination)
+      }.by 1
     end
   end
 
@@ -14,11 +15,11 @@ RSpec.describe Machine do
     Machine::ALLOWED_DENOMINATIONS.each do |denomination|
       machine = Machine.new
 
-      machine.add_coin(denomination)
-      expect(machine.coin_count(denomination)).to eq(1)
+      machine = Machine.new
 
-      machine.dispense_coin(denomination)
-      expect(machine.coin_count(denomination)).to eq(0)
+      expect{machine.dispense_coin(denomination)}.to change{
+        machine.coin_count(denomination)
+      }.by -1
     end
   end
 
