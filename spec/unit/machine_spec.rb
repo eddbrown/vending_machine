@@ -1,9 +1,20 @@
 RSpec.describe Machine do
+
+  context '#item_count' do
+    it 'counts the items of a given code' do
+      machine = Machine.new
+      expect(machine.item_count(:B)).to eq(Machine::MAX_ITEM_CAPACITY)
+    end
+  end
+
   context '#coin_count' do
     it 'can count the coins' do
       Machine::ALLOWED_DENOMINATIONS.each do |denomination|
         machine = Machine.new
 
+        expect(machine.coin_count(denomination)).to eq(Machine::MAX_COIN_CAPACITY)
+
+        # Also checks that it recognises a change in the count
         expect{machine.add_coin(denomination)}.to change{
           machine.coin_count(denomination)
         }.by 1
