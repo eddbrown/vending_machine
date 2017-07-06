@@ -31,7 +31,6 @@ RSpec.describe Calculator do
       }
     )
 
-
     tender = 1
     cost = 0.81
 

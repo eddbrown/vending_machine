@@ -1,6 +1,7 @@
 require_relative '../models/machine.rb'
 require_relative '../models/coin.rb'
 require_relative '../models/item.rb'
+require_relative '../models/calculator.rb'
 
 RSpec.describe Machine do
   it 'can add a coin' do
@@ -44,7 +45,7 @@ RSpec.describe Machine do
     end
   end
 
-  it 'can dispense an item' do
+  it 'dispenses an item' do
     machine = Machine.new
     machine.reload_items
 
@@ -55,5 +56,41 @@ RSpec.describe Machine do
     expect(item.code).to eq('A')
 
     expect(machine.item_count('A')).to eq(Machine::MAX_ITEM_CAPACITY - 1)
+  end
+
+  it 'asks the calculator to provide it with a list of change to return' do
+    machine = Machine.new
+    machine.reload_items
+    change_list = double(compute_change: :list)
+
+    allow(Calculator).to receive(:new) { change_list }
+
+    expect(machine.compute_change('A', 1.0)).to eq(:list)
+  end
+
+  it 'dispenses the chosen item and change according to the computed list' do
+    machine = Machine.new
+    machine.reload_items
+    machine.reload_coins
+    item = double
+
+    list = {
+      0.01 => 0,
+      0.02 => 0,
+      0.05 => 0,
+      0.1 => 0,
+      0.2 => 0,
+      0.5 => 0,
+      1.0 => 0,
+      2.0 => 2
+    }
+    calc = double(compute_change: list)
+    allow(Calculator).to receive(:new) { calc }
+    allow(machine).to receive(:dispense_item) { item }
+
+    expect(machine.choose('B', 5.00)).to eq({
+      item: item,
+      change: [2.0, 2.0]
+    })
   end
 end
