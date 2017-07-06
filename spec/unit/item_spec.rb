@@ -1,5 +1,3 @@
-require_relative '../models/item.rb'
-
 RSpec.describe Item do
   it 'has a code' do
     diet_coke = Item.new('A')

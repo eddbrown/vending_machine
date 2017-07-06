@@ -1,7 +1,3 @@
-require_relative '../models/machine.rb'
-require_relative '../models/item.rb'
-require_relative '../models/calculator.rb'
-
 RSpec.describe Machine do
   it 'can add a coin' do
     Machine::ALLOWED_DENOMINATIONS.each do |denomination|
@@ -30,7 +26,7 @@ RSpec.describe Machine do
     machine = Machine.new
     machine.reload_items
 
-    Machine::ITEM_CODES.each do |code|
+    [:A,:B,:C,:D,:E,:F,:G,:H,:I,:J].each do |code|
       expect(machine.item_count(code)).to eq(Machine::MAX_ITEM_CAPACITY)
     end
   end

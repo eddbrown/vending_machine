@@ -1,5 +1,3 @@
-require_relative '../models/calculator.rb'
-
 RSpec.describe Calculator do
   it 'computes the difference between money in and the cost' do
     tender = 1
