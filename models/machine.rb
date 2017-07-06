@@ -1,17 +1,17 @@
 class Machine
   ALLOWED_DENOMINATIONS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0]
-  ITEM_CODES = ['A','B','C','D','E','F','G','H','I','J']
+  ITEM_CODES = [:A,:B,:C,:D,:E,:F,:G,:H,:I,:J]
   ITEM_COSTS = {
-    'A': 1.0,
-    'B': 1.0,
-    'C': 1.0,
-    'D': 1.0,
-    'E': 1.0,
-    'F': 1.0,
-    'G': 1.0,
-    'H': 1.0,
-    'I': 1.0,
-    'J': 1.0,
+    A: 1.0,
+    B: 1.0,
+    C: 1.0,
+    D: 1.0,
+    E: 1.0,
+    F: 1.0,
+    G: 1.0,
+    H: 1.0,
+    I: 1.0,
+    J: 1.0,
   }
   MAX_ITEM_CAPACITY = 10
   MAX_COIN_CAPACITY = 100
@@ -64,6 +64,8 @@ class Machine
   end
 
   def compute_change(item, tender)
+    raise('Insufficient Funds') if (ITEM_COSTS[item.to_sym] > tender)
+
     Calculator.new(ITEM_COSTS[item], tender).compute_change
   end
 

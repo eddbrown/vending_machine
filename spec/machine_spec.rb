@@ -1,5 +1,4 @@
 require_relative '../models/machine.rb'
-require_relative '../models/coin.rb'
 require_relative '../models/item.rb'
 require_relative '../models/calculator.rb'
 
@@ -49,13 +48,13 @@ RSpec.describe Machine do
     machine = Machine.new
     machine.reload_items
 
-    expect(machine.item_count('A')).to eq(Machine::MAX_ITEM_CAPACITY)
+    expect(machine.item_count(:A)).to eq(Machine::MAX_ITEM_CAPACITY)
 
-    item = machine.dispense_item('A')
+    item = machine.dispense_item(:A)
     expect(item).to be_an(Item)
-    expect(item.code).to eq('A')
+    expect(item.code).to eq(:A)
 
-    expect(machine.item_count('A')).to eq(Machine::MAX_ITEM_CAPACITY - 1)
+    expect(machine.item_count(:A)).to eq(Machine::MAX_ITEM_CAPACITY - 1)
   end
 
   it 'asks the calculator to provide it with a list of change to return' do
@@ -65,7 +64,7 @@ RSpec.describe Machine do
 
     allow(Calculator).to receive(:new) { change_list }
 
-    expect(machine.compute_change('A', 1.0)).to eq(:list)
+    expect(machine.compute_change(:A, 1.0)).to eq(:list)
   end
 
   it 'dispenses the chosen item and change according to the computed list' do
@@ -88,9 +87,17 @@ RSpec.describe Machine do
     allow(Calculator).to receive(:new) { calc }
     allow(machine).to receive(:dispense_item) { item }
 
-    expect(machine.choose('B', 5.00)).to eq({
+    expect(machine.choose(:B, 5.00)).to eq({
       item: item,
       change: [2.0, 2.0]
     })
+  end
+
+  it 'raises an error if the cost of the item is more than the tender' do
+    machine = Machine.new
+    machine.reload_items
+    machine.reload_coins
+
+    expect{machine.choose(:B, 0.1)}.to raise_error('Insufficient Funds')
   end
 end
