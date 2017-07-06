@@ -103,8 +103,6 @@ RSpec.describe Machine do
     cost = 1.00
     tender = 0.1
 
-    allow_any_instance_of(Item).to receive(:cost) { cost }
-
     expect{ machine.choose(:B, tender) }.to raise_error('Insufficient Funds')
   end
 end

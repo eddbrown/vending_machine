@@ -1,18 +1,5 @@
 class Machine
   ALLOWED_DENOMINATIONS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0]
-  ITEM_CODES = [:A,:B,:C,:D,:E,:F,:G,:H,:I,:J]
-  ITEM_COSTS = {
-    A: 1.0,
-    B: 1.0,
-    C: 1.0,
-    D: 1.0,
-    E: 1.0,
-    F: 1.0,
-    G: 1.0,
-    H: 1.0,
-    I: 1.0,
-    J: 1.0,
-  }
   MAX_ITEM_CAPACITY = 10
   MAX_COIN_CAPACITY = 100
 
@@ -44,7 +31,7 @@ class Machine
   def reload_items
     @items = []
 
-    ITEM_CODES.each do |code|
+    Item::COSTS.each do |code, _|
       MAX_ITEM_CAPACITY.times {
         item = Item.new(code)
 
@@ -70,7 +57,7 @@ class Machine
   end
 
   def choose(item, tender)
-    item_cost = ITEM_COSTS[item]
+    item_cost = Item::COSTS[item]
     change_list = compute_change(item_cost, tender)
 
     dispensed_change = []
